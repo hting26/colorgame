@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+  <style>
+    * {
+      margin: 0;
+      transition: .2s;
+    }
+
+    body {
+      background: rgb(255, 243, 224);
+      height: 100vh;
+    }
+
+    .box {
+      width: 595px;
+      height: 800px;
+      margin: auto;
+      position: relative;
+      top: 3%;
+      color: cadetblue;
+      font-size: 20px;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .cube {
+      width: 60px;
+      height: 60px;
+      border: 5px solid transparent;
+      border-radius: 15px;
+      background: rgb(212, 212, 212);
+    }
+
+    .cube:hover {
+      box-shadow: 1px 1px 8px rgb(197, 188, 173);
+      border: 5px solid transparent;
+    }
+
+    .target {
+      filter: hue-rotate(20deg);
+    }
+
+    .done {
+      background: transparent;
+      box-shadow: none;
+    }
+
+    .done:hover {
+      box-shadow: none;
+    }
+
+    .startbtn {
+      width: 100px;
+      height: 50px;
+      background-color: rgb(208, 240, 229);
+      border: blanchedalmond;
+      border-radius: 10px;
+      color: rgb(61, 101, 102);
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 18px;
+      box-shadow: 0 5px 10px rgb(185, 209, 201);
+    }
+
+    .startbtn:hover {
+      transform: scale(109%);
+      filter: hue-rotate(30deg);
+    }
+
+    .disabledbtn {
+      width: 100px;
+      height: 50px;
+      background-color: rgb(240, 240, 240);
+      border: blanchedalmond;
+      border-radius: 10px;
+      color: rgb(179, 179, 179);
+      font-weight: 700;
+      font-size: 18px;
+    }
+
+    .high {
+      margin: auto;
+      width: fit-content;
+      border-top: 8px solid rgb(231, 210, 178);
+      padding: 10px;
+    }
+
+    .transparent {
+      background: transparent;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="box">
+    <table id="game">
+      <tr>
+        <td class="cube"></td>
+        <td class="cube"></td>
+        <td class="cube"></td>
+        <td class="cube"></td>
+        <td class="cube"></td>
+        <td class="cube"></td>
+        <td class="cube"></td>
+        <td class="cube"></td>
+      </tr>
+      <tr>
+        <td class="cube"></td>
+        <td class="cube"></td>
+        <td class="cube"></td>
+        <td class="cube"></td>
+        <td class="cube"></td>
+        <td class="cube"></td>
+        <td class="cube"></td>
+        <td class="cube"></td>
+      </tr>
+      <tr>
+        <td class="cube"></td>
+        <td class="cube"></td>
+        <td class="cube"></td>
+        <td class="cube"></td>
+        <td class="cube"></td>
+        <td class="cube"></td>
+        <td class="cube"></td>
+        <td class="cube"></td>
+      </tr>
+      <tr>
+        <td class="cube"></td>
+        <td class="cube"></td>
+        <td class="cube"></td>
+        <td class="cube"></td>
+        <td class="cube"></td>
+        <td class="cube"></td>
+        <td class="cube"></td>
+        <td class="cube"></td>
+      </tr>
+      <tr>
+        <td class="cube"></td>
+        <td class="cube"></td>
+        <td class="cube"></td>
+        <td class="cube"></td>
+        <td class="cube"></td>
+        <td class="cube"></td>
+        <td class="cube"></td>
+        <td class="cube"></td>
+      </tr>
+      <tr>
+        <td class="cube"></td>
+        <td class="cube"></td>
+        <td class="cube"></td>
+        <td class="cube"></td>
+        <td class="cube"></td>
+        <td class="cube"></td>
+        <td class="cube"></td>
+        <td class="cube"></td>
+      </tr>
+      <tr>
+        <td class="cube"></td>
+        <td class="cube"></td>
+        <td class="cube"></td>
+        <td class="cube"></td>
+        <td class="cube"></td>
+        <td class="cube"></td>
+        <td class="cube"></td>
+        <td class="cube"></td>
+      </tr>
+      <tr>
+        <td class="cube"></td>
+        <td class="cube"></td>
+        <td class="cube"></td>
+        <td class="cube"></td>
+        <td class="cube"></td>
+        <td class="cube"></td>
+        <td class="cube"></td>
+        <td class="cube"></td>
+      </tr>
+    </table>
+    <br>
+    <br>
+
+    <input type="button" value="開始遊戲" id="start" class="startbtn">
+    <br>
+    <br>
+    <br>
+    目前分數:<span id="score">0</span>
+    <br>
+    <br>
+    <div class="high">
+      No.1
+      <br>
+      玩家: <span id="highname">目前還沒有最高分唷！</span>
+      分數: <span id="highscore">0</span>
+    </div>
+  </div>
+
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script>
+    let timerInterval
+    Swal.fire({
+      html: '找出20個不同顏色的方塊മ◡മ，動作要快，時間不等人唷',
+      timer: 1800,
+      timerProgressBar: true,
+      showConfirmButton: false,
+      willClose: () => {
+        clearInterval(timerInterval)
+      }
+    })
+
+    const cubes = document.getElementsByClassName('cube')
+    const start = document.getElementById('start')
+    const scoreText = document.getElementById('score')
+    const highnameText = document.getElementById('highname')
+    const highscoreText = document.getElementById('highscore')
+    const target = document.getElementsByClassName('target')
+    const box = document.getElementsByClassName('box')
+    // 最高分
+    const high = { score: 0, name: 'noname' }
+    // 計分
+    let score = 0
+    // 計時器
+    let timer = 0
+    // 讀取資料
+    const storage = JSON.parse(localStorage.getItem('game1'))
+    // 如果有資料
+    if (storage) {
+      high.name = storage.name
+      high.score = storage.score
+      // 修改最高分顯示文字
+      highnameText.innerText = high.name
+      highscoreText.innerText = high.score
+    }
+
+    // 開始遊戲------------------------------------------------------
+    start.onclick = () => {
+      // 停用開始按鈕
+      start.disabled = true
+      // 按鈕變灰色
+      start.classList.replace('startbtn', 'disabledbtn')
+      // 重設分數
+      score = 0
+      scoreText.innerText = score
+      // 1.4秒變換顏色
+      timer = setInterval(game, 1400)
+      game()
+      // 幾秒後遊戲結束
+      setTimeout(end,27.9 * 1000)
+    }
+    // 每1.4秒變顏色-----------------------------------
+    const game = () => {
+      const rand1 = (Math.round(Math.random() * 255))
+      const rand2 = (Math.round(Math.random() * 255))
+      const rand3 = (Math.round(Math.random() * 255))
+      for (const cube of cubes) {
+        // 全部方塊移除target、done
+        cube.classList.remove('target')
+        cube.classList.remove('done')
+        // 全部方塊隨機變成一個顏色
+        cube.style.background = `rgb(${rand1}, ${rand2}, ${rand3})`
+      }
+      for (let i = 0; i < 1; i++) {
+        // 隨機變換一個方塊顏色
+        cubes[Math.round(Math.random() * (cubes.length - 1))].classList.add('target')
+      }
+    }
+
+    // 遊戲結束----------------------------------------------------
+    const end = () => {
+      // 停止變顏色
+      clearInterval(timer)
+      // 顏色清掉
+      for (const cube of cubes) {
+        cube.classList.remove('target')
+        cube.classList.remove('done')
+      }
+      // 啟用開始按鈕
+      start.disabled = false
+      start.classList.replace('disabledbtn', 'startbtn')
+      // 跳出訊息
+      alert(`遊戲結束!你得到${score}分`)
+      // 紀錄最高分
+      if (score > high.score) {
+        const input = prompt('恭喜~你是最高分！請輸入名字供後人景仰')
+        // 修改最高分變數資料
+        high.score = score
+        high.name = input || 'noname'
+        // 修改最高分顯示文字
+        highnameText.innerText = high.name
+        highscoreText.innerText = high.score
+        // 保存
+        localStorage.setItem('game1', JSON.stringify(high))
+      }
+    }
+    // 點擊變色
+    for (const cube of cubes) {
+      cube.onclick = () => {
+        // 如果點下去時是target
+        if (cube.classList.contains('target')) {
+          // 變為done
+          cube.classList.replace('target', 'done')
+          cube.style.background = "transparent"
+          // 加分
+          score++
+          scoreText.innerText = score
+        }
+      }
+    }
+  </script>
+</body>
+
+</html>
