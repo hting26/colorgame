@@ -10,7 +10,7 @@
   <style>
     * {
       margin: 0;
-      transition: .2s;
+      transition: .4s;
     }
 
     body {
@@ -19,7 +19,7 @@
     }
 
     .box {
-      width: 595px;
+      width: fit-content;
       height: 800px;
       margin: auto;
       position: relative;
@@ -31,11 +31,12 @@
     }
 
     .cube {
-      width: 60px;
-      height: 60px;
+      width: 50px;
+      height: 50px;
       border: 5px solid transparent;
       border-radius: 15px;
       background: rgb(212, 212, 212);
+      transition: .1s;
     }
 
     .cube:hover {
@@ -44,7 +45,7 @@
     }
 
     .target {
-      filter: hue-rotate(20deg);
+      filter: hue-rotate(13deg);
     }
 
     .done {
@@ -185,7 +186,7 @@
     <br>
     <br>
 
-    <input type="button" value="開始遊戲" id="start" class="startbtn">
+    <a href="#"><input type="button" value="開始遊戲" id="start" class="startbtn" ></a>
     <br>
     <br>
     <br>
@@ -204,8 +205,8 @@
   <script>
     let timerInterval
     Swal.fire({
-      html: '找出20個不同顏色的方塊മ◡മ，動作要快，時間不等人唷',
-      timer: 1800,
+      html: '找出20個不同顏色的方塊，動作要快，<br>這是個考驗眼力與手速的遊戲മ◡മ',
+      timer: 2000,
       timerProgressBar: true,
       showConfirmButton: false,
       willClose: () => {
@@ -246,13 +247,13 @@
       // 重設分數
       score = 0
       scoreText.innerText = score
-      // 1.4秒變換顏色
-      timer = setInterval(game, 1400)
+      // 1.5秒變換顏色
+      timer = setInterval(game, 1500)
       game()
       // 幾秒後遊戲結束
-      setTimeout(end,27.9 * 1000)
+      setTimeout(end,29.9 * 1000)
     }
-    // 每1.4秒變顏色-----------------------------------
+    // 每1.5秒變顏色-----------------------------------
     const game = () => {
       const rand1 = (Math.round(Math.random() * 255))
       const rand2 = (Math.round(Math.random() * 255))
